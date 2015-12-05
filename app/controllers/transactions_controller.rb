@@ -24,4 +24,19 @@ class TransactionsController < ApplicationController
       render :new
     end
   end
+
+  def pickup
+    @sale = Sale.find_by!(guid: params[:guid])
+    @product = @sale.product
+  end
+
+  def download
+    @sale = Sale.find_by!(guid: params[:guid])
+    url = @sale.product.file.url
+    resp = HTTParty.get(url)
+
+    send_data resp.body,
+      filename: File.basename(url),
+      content_type: resp.headers['Content-Type']
+  end
 end
