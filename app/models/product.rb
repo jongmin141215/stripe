@@ -1,3 +1,4 @@
+
 class Product < ActiveRecord::Base
   belongs_to :user
 
@@ -14,4 +15,5 @@ class Product < ActiveRecord::Base
   has_many :sales
   validates :price, numericality: { greater_than: 0.49,
                                    message: "must be at least 50 cents" }
+                                   
 end
