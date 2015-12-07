@@ -7,10 +7,10 @@ class TransactionsControllerTest < ActionController::TestCase
   test "should post create" do
     product = Product.create(permalink: 'test_product',
                              price: 100)
-    email = 'test111@test.com'
+    email = 'test@test.com'
     token = 'tok_test'
 
-    post :create, email: email, stripeToken: token
+    post :create, email: email, stripeToken: token, permalink: product.permalink
 
     assert_not_nil assigns(:sale)
     assert_not_nil assigns(:sale).stripe_id

@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
         email: params[:stripeEmail],
         stripe_id: charge.id
       )
-      redirect_to pickup_path(guid: @sale.guid)
+      redirect_to pickup_url(guid: @sale.guid)
     rescue Stripe::CardError => e
       @error = e
       render :new

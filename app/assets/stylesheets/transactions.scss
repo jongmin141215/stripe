@@ -1,3 +1,21 @@
 // Place all the styles related to the transactions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.well {
+  margin-left: 0px;
+  position: relative;
+  width: 650px;
+  height: 185px;
+}
+#email {
+  width: 25em;
+}
+.card-image {
+  height: 30px;
+  padding-left: 10px;
+  margin-top: -10px;
+}
+.price {
+  position: absolute;
+  left: 20px;
+}
