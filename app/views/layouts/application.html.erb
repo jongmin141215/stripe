@@ -6,14 +6,18 @@
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script>
     $(function(){
       Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
       $('#payment-form').submit(function(event) {
         var $form = $(this);
         $form.find('button').prop('disabled', true);
-        Stripe.createToken($form, stripeResponseHandler);
+        Stripe.card.createToken({
+          number: $('#number').val(),
+          cvc: $('#cvc').val(),
+          exp_month: $('#exp-month').val(),
+          exp_year: $('#exp-year').val()
+        }, stripeResponseHandler);
         return false;
       });
       function stripeResponseHandler(status, response) {
@@ -38,5 +42,6 @@
   <div class="container">
     <%= yield %>
   </div>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 </body>
 </html>

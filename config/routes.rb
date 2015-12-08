@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post '/buy/:permalink', to: 'transactions#create', as: :buy
   get '/pickup/:guid', to: 'transactions#pickup', as: :pickup
   get '/download/:guid', to: 'transactions#download', as: :download
-
+  get '/iframe/:permalink', to: 'transactions#iframe', as: :buy_iframe
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
