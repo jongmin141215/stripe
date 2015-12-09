@@ -30,6 +30,7 @@ gem 'figaro'
 gem 'httparty'
 gem 'aasm'
 gem 'paper_trail'
+gem 'stripe_event'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
