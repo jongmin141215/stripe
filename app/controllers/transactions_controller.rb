@@ -8,20 +8,17 @@ class TransactionsController < ApplicationController
 
   def create
     @product = Product.find_by!(permalink: params[:permalink])
-    begin
-      charge = Stripe::Charge.create(
-        amount: @product.price,
-        currency: 'usd',
-        description: params[:stripeEmail],
-        source: params[:stripeToken]
-      )
-      @sale = @product.sales.create(
-        email: params[:stripeEmail],
-        stripe_id: charge.id
-      )
-      redirect_to pickup_url(guid: @sale.guid)
-    rescue Stripe::CardError => e
-      @error = e
+
+    sale = @product.sales.create(
+      amount: @product.price,
+      email: params[:email],
+      stripe_token: params[:stripeToken]
+    )
+    sale.process!
+    if sale.finished?
+      redirect_to pickup_url(guid: sale.guid)
+    else
+      flash.now[:alert] = sale.error
       render :new
     end
   end
@@ -33,9 +30,8 @@ class TransactionsController < ApplicationController
 
   def download
     @sale = Sale.find_by!(guid: params[:guid])
+    resp = HTTParty.get(@sale.product.file.url)
     url = @sale.product.file.url
-    resp = HTTParty.get(url)
-
     send_data resp.body,
       filename: File.basename(url),
       content_type: resp.headers['Content-Type']
