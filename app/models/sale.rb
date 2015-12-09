@@ -2,6 +2,7 @@ class Sale < ActiveRecord::Base
   belongs_to :product
   before_create :populate_guid
   validates :guid, uniqueness: true
+  has_paper_trail
 
   include AASM
 
